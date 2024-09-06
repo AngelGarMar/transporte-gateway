@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: transporte-gateway
+  datasource:
+    url: jdbc:mysql://localhost:3306/transporte_usuarios_msrv
+    username: micro_usuarios
+    password: transporte_u_msrv
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+  cloud:
+    gateway:
+      routes:
+      - id: transporte-usuarios-3
+        uri: lb://transporte-usuarios-3
+        predicates:
+        - Path=/api/v3/**
+        filters:
+        - StripPrefix=2
+server:
+  port: 4040
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+  instance:
+    hostname: http://localhost
+    prefer-ip-address: true
